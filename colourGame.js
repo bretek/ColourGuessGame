@@ -45,11 +45,11 @@ function createColourGrid(width, height) {
     let bottomRightColour = new Color("#0FB1E2");
 
     let verticalGradient1 = topLeftColour.range(bottomLeftColour, {
-        space: "lch",
+        space: "srgb-linear",
         outputSpace: "srgb"
     });
     let verticalGradient2 = topRightColour.range(bottomRightColour, {
-        space: "lch",
+        space: "srgb-linear",
         outputSpace: "srgb"
     });
 
@@ -59,15 +59,17 @@ function createColourGrid(width, height) {
         grid.appendChild(createTextItem(String.fromCharCode(i+65), 1, i+2));
         for (var j = 0; j < width; ++j) {
             // create colour square
-            let verticalGradientIndex = i * (1/width);
-            let horizontalGradientIndex = j*(1/height);
+            let verticalGradientIndex = i * (1/height);
+            let horizontalGradientIndex = j * (1/width);
             
             let horizontalGradient = verticalGradient1(verticalGradientIndex).range(verticalGradient2(verticalGradientIndex), {
-                space: "lch",
+                space: "srgb-linear",
                 outputSpace: "srgb"
             });
 
-            grid.appendChild(createColourItem(horizontalGradient(horizontalGradientIndex), j+2, i+2));
+            let colour = horizontalGradient(horizontalGradientIndex);
+            colour.hsl.s = 100;
+            grid.appendChild(createColourItem(colour, j+2, i+2));
         }
     }
 }
