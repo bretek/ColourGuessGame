@@ -33,7 +33,7 @@ body {
     justify-content: center;
     align-items: center;
     display: flex;
-    border-radius: 30px;
+    border-radius: 100%;
     border: 3px solid black;
     aspect-ratio: 1;
 }
