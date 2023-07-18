@@ -23,15 +23,19 @@ function createColourItem(colour, x, y) {
     return colourItem;
 }
 
+function createMarkerItem(colour, parent) {
+    let marker = document.createElement('div');
+        marker.className = 'player-marker';
+        marker.style.backgroundColor = colour.toString({ format: "rgb" });
+        parent.appendChild(marker);
+}
+
 function placeMarker(colour, x, y) {
     var colourItems = document.getElementsByClassName("grid-colour-item");
     for (let i = 0; i < colourItems.length; ++i) {
         let item = colourItems[i];
         if (item.style["grid-row"] == y+1 && item.style["grid-column"] == x+1) {
-            let marker = document.createElement('div');
-            marker.className = 'player-marker';
-            marker.style.backgroundColor = colour.toString({ format: "rgb" });
-            item.appendChild(marker);
+            createMarkerItem(colour, item);
         }
     }
 }
