@@ -2,6 +2,27 @@ import Color from "https://colorjs.io/dist/color.js";
 
 var grid;
 
+function dragMarker(ev) {
+    ev.dataTransfer.setData("marker", ev.target.id);
+}
+
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function dropMarker(ev) {
+    ev.preventDefault();
+    var marker = document.getElementById(ev.dataTransfer.getData("marker"));
+    var targetY = ev.target.style["grid-row"] - 1;
+    var targetX = ev.target.style["grid-column"] - 1;
+    console.log (targetY);
+    console.log (targetX);
+    if (!isSpaceOccupied(targetX, targetY) && targetX > 0 && targetY > 0) {
+        ev.target.appendChild(marker);
+        marker.draggable = false;
+    }
+}
+
 function createTextItem(text, x, y) {
     var textItem = document.createElement('div');
     textItem.className = 'grid-text-item';
@@ -17,16 +38,26 @@ function createTextItem(text, x, y) {
 function createColourItem(colour, x, y) {
     var colourItem = document.createElement('div');
     colourItem.className = 'grid-colour-item';
+
     colourItem.style.backgroundColor = colour.toString({ format: "rgb" });
     colourItem.style["grid-row"] = Number(y);
     colourItem.style["grid-column"] = Number(x);
+
+    colourItem.ondragover = function(){allowDrop(event)};
+    colourItem.ondrop = function(){dropMarker(event)};
+
     return colourItem;
 }
 
-function createMarkerItem(colour, parent) {
+function createMarkerItem(id, colour, parent) {
     let marker = document.createElement('div');
     marker.className = 'player-marker';
     marker.style.backgroundColor = colour.toString({ format: "rgb" });
+
+    marker.id = id;
+    marker.draggable = true;
+    marker.ondragstart = function(){dragMarker(event)};
+
     parent.appendChild(marker);
 }
 
@@ -105,13 +136,13 @@ function createColourGrid(width, height) {
 }
 
 createColourGrid(30,16);
-placeMarker(new Color("#FF0000"), 1, 1);
-placeMarker(new Color("#FFFF00"), 5, 10);
+//placeMarker(new Color("#FF0000"), 1, 1);
+//placeMarker(new Color("#FFFF00"), 5, 10);
 var result = isSpaceOccupied(5,10);
 console.log(result);
 result = isSpaceOccupied(10, 20);
 console.log(result);
 
-createMarkerItem(new Color("#0000FF"), document.getElementById("markersSpace"));
-createMarkerItem(new Color("#FF0000"), document.getElementById("markersSpace"));
-createMarkerItem(new Color("#00FF00"), document.getElementById("markersSpace"));
+createMarkerItem(0, new Color("#0000FF"), document.getElementById("markersSpace"));
+createMarkerItem(1, new Color("#FF0000"), document.getElementById("markersSpace"));
+createMarkerItem(2, new Color("#00FF00"), document.getElementById("markersSpace"));
