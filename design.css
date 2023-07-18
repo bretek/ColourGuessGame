@@ -4,12 +4,36 @@ body {
     font-family: 'Roboto Condensed', sans-serif;
 }
 
+#horizontalFlex {
+    display: flex;
+    align-items: center;
+    height: 90vh;
+}
+
+#gridSpace {
+    display: flex;
+    width: 80vw;
+    margin: 20px;
+}
+
+#markersSpace {
+    display: flex;
+    flex-direction: column;
+    width: 10vw;
+    height: 80vh;
+    margin: 10px;
+    border-radius: 5px;
+    background-color: #535353;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
+}
+
 .grid {
     display: inline-grid;
-    width: 90vw;
-    height: 90vh;
+    width: 100%;
     gap: 10px;
-    margin: 20px;
+    margin: 10px;
 }
 
 .grid-text-item {

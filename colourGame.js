@@ -111,3 +111,7 @@ var result = isSpaceOccupied(5,10);
 console.log(result);
 result = isSpaceOccupied(10, 20);
 console.log(result);
+
+createMarkerItem(new Color("#0000FF"), document.getElementById("markersSpace"));
+createMarkerItem(new Color("#FF0000"), document.getElementById("markersSpace"));
+createMarkerItem(new Color("#00FF00"), document.getElementById("markersSpace"));
