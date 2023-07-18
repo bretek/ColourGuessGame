@@ -27,6 +27,7 @@ function createColourGrid(width, height) {
     // create grid
     grid = document.createElement('div');
     grid.className = 'grid';
+    grid.style.gridTemplateColumns = "repeat(" + (width + 1) + ", 1fr)";
     let container = document.getElementById('gridSpace');
     container.appendChild(grid);
 

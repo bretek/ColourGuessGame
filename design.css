@@ -15,6 +15,7 @@ body {
     justify-content: center;
     align-items: center;
     display: flex;
+    aspect-ratio: 1;
 }
 
 .grid-colour-item {
@@ -22,6 +23,7 @@ body {
     align-items: center;
     display: flex;
     border-radius: 10px;
+    aspect-ratio: 1;
 }
 
 h1 {
