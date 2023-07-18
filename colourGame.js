@@ -25,9 +25,21 @@ function createColourItem(colour, x, y) {
 
 function createMarkerItem(colour, parent) {
     let marker = document.createElement('div');
-        marker.className = 'player-marker';
-        marker.style.backgroundColor = colour.toString({ format: "rgb" });
-        parent.appendChild(marker);
+    marker.className = 'player-marker';
+    marker.style.backgroundColor = colour.toString({ format: "rgb" });
+    parent.appendChild(marker);
+}
+
+function isSpaceOccupied(x, y) {
+    var colourItems = document.getElementsByClassName("grid-colour-item");
+    for (let i = 0; i < colourItems.length; ++i) {
+        let item = colourItems[i];
+        if (item.style["grid-row"] == y+1 && item.style["grid-column"] == x+1 && item.childNodes.length != 0) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 function placeMarker(colour, x, y) {
@@ -95,3 +107,7 @@ function createColourGrid(width, height) {
 createColourGrid(30,16);
 placeMarker(new Color("#FF0000"), 1, 1);
 placeMarker(new Color("#FFFF00"), 5, 10);
+var result = isSpaceOccupied(5,10);
+console.log(result);
+result = isSpaceOccupied(10, 20);
+console.log(result);
