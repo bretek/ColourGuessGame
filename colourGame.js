@@ -60,8 +60,8 @@ function createColourGrid(width, height) {
         grid.appendChild(createTextItem(String.fromCharCode(i+65), 1, i+2));
         for (var j = 0; j < width; ++j) {
             // create colour square
-            let verticalGradientIndex = i * (1/height);
-            let horizontalGradientIndex = j * (1/width);
+            let verticalGradientIndex = i * (1/height) * 0.8;
+            let horizontalGradientIndex = j * (1/width) * 0.7;
             
             let horizontalGradient = verticalGradient1(verticalGradientIndex).range(verticalGradient2(verticalGradientIndex), {
                 space: "srgb-linear",
