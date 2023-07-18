@@ -1,9 +1,25 @@
 import Color from "https://colorjs.io/dist/color.js";
 
 var grid;
+var turnNum = 0;
+var firstRound = true;
+var numPlayers = 3;
+
+var playerColours = [
+    "#FF0000",
+    "#00FF00",
+    "#0000FF",
+    "#FFFF00",
+    "#FF00FF",
+    "#00FFFF",
+    "#000000",
+    "#FFFFFF",
+    "#AAAAAA"
+];
 
 function dragMarker(ev) {
     ev.dataTransfer.setData("marker", ev.target.id);
+    ev.dataTransfer.setDragImage(ev.target, ev.target.clientWidth/2, ev.target.clientHeight/2);
 }
 
 function allowDrop(ev) {
@@ -20,6 +36,14 @@ function dropMarker(ev) {
     if (!isSpaceOccupied(targetX, targetY) && targetX > 0 && targetY > 0) {
         ev.target.appendChild(marker);
         marker.draggable = false;
+    }
+    if (document.getElementById("markersSpace").childNodes.length == 0) {
+        if (firstRound) {
+            playSecondRound();
+        }
+        else {
+            nextTurn();
+        }
     }
 }
 
@@ -135,14 +159,50 @@ function createColourGrid(width, height) {
     }
 }
 
-createColourGrid(30,16);
-//placeMarker(new Color("#FF0000"), 1, 1);
-//placeMarker(new Color("#FFFF00"), 5, 10);
-var result = isSpaceOccupied(5,10);
-console.log(result);
-result = isSpaceOccupied(10, 20);
-console.log(result);
+function playFirstRound() {
+    var grid = document.getElementsByClassName("grid");
+    if (grid.length != 0) {
+        grid[0].remove();
+    }
 
-createMarkerItem(0, new Color("#0000FF"), document.getElementById("markersSpace"));
-createMarkerItem(1, new Color("#FF0000"), document.getElementById("markersSpace"));
-createMarkerItem(2, new Color("#00FF00"), document.getElementById("markersSpace"));
+    createColourGrid(30,16);
+
+    alert("Player " + (turnNum + 1) + ", give your first clue");
+
+    for (var i = 0; i < numPlayers; ++i) {
+        if (i != turnNum) {
+            createMarkerItem(i*2, new Color(playerColours[i]), document.getElementById("markersSpace"));
+        }
+    }
+}
+
+function playSecondRound() {
+    alert("Player " + (turnNum + 1) + ", give your second clue");
+
+    firstRound = false;
+    for (var i = 0; i < numPlayers; ++i) {
+        if (i != turnNum) {
+            createMarkerItem(i*2 + 1, new Color(playerColours[i]), document.getElementById("markersSpace"));
+        }
+    }
+}
+
+function showFinalScores() {
+    alert("won");
+}
+
+function nextTurn() {
+    //add scores
+
+    turnNum++;
+    if (turnNum < numPlayers)
+    {
+        firstRound = true;
+        playFirstRound();
+    }
+    else {
+        showFinalScores();
+    }
+}
+
+playFirstRound();

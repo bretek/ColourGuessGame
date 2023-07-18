@@ -53,13 +53,10 @@ body {
 }
 
 .player-marker {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     border-radius: 100%;
     border: 3px solid black;
     aspect-ratio: 1;
-    flex: 0.5 0.5 auto;
+    width: 60%;
 }
 
 h1 {
@@ -70,5 +67,5 @@ h1 {
 p {
     color: white;
     text-align: center;
-    flex: 0 0 120px;
+    flex: 0 0 auto;
 }
