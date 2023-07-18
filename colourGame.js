@@ -23,6 +23,19 @@ function createColourItem(colour, x, y) {
     return colourItem;
 }
 
+function placeMarker(colour, x, y) {
+    var colourItems = document.getElementsByClassName("grid-colour-item");
+    for (let i = 0; i < colourItems.length; ++i) {
+        let item = colourItems[i];
+        if (item.style["grid-row"] == y+1 && item.style["grid-column"] == x+1) {
+            let marker = document.createElement('div');
+            marker.className = 'player-marker';
+            marker.style.backgroundColor = colour.toString({ format: "rgb" });
+            item.appendChild(marker);
+        }
+    }
+}
+
 function createColourGrid(width, height) {
     // create grid
     grid = document.createElement('div');
@@ -76,3 +89,5 @@ function createColourGrid(width, height) {
 }
 
 createColourGrid(30,16);
+placeMarker(new Color("#FF0000"), 1, 1);
+placeMarker(new Color("#FFFF00"), 5, 10);
