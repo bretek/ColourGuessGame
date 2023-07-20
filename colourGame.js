@@ -3,10 +3,10 @@ import Color from "https://colorjs.io/dist/color.js";
 var grid;
 var turnNum = 0;
 var firstRound = true;
-var numPlayers = 0;
+var numPlayers = 5;
 
-var width = 20;
-var height = 10;
+var width = 30;
+var height = 16;
 
 var currentCorrectX;
 var currentCorrectY;
@@ -303,6 +303,9 @@ function calculateScore(correctSquareX, correctSquareY) {
                 var square = getSquare(correctSquareX+x, correctSquareY+y);
                 if (square != null && square.childNodes.length != 0) {
                     var points = 3 - (x > y ? Math.abs(x) : Math.abs(y));
+                    if (points >= 2) {
+                        playerScores[turnNum] += 1;
+                    }
                     addPoints(square, points);
                 }
             }
@@ -337,7 +340,7 @@ function toggleText() {
     }
 }
 
-document.getElementById("playGameButton").addEventListener("click", function() { startGame(2); } );
+document.getElementById("playGameButton").addEventListener("click", function() { startGame(numPlayers); } );
 document.getElementById("nextRoundButton").addEventListener("click", showCorrectSquare);
 document.getElementById("startRoundButton").addEventListener("click", nextTurn);
 document.getElementById("correctSquare").addEventListener("click", toggleText);
