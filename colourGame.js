@@ -8,6 +8,9 @@ var numPlayers = 0;
 var width = 30;
 var height = 16;
 
+var currentCorrectX;
+var currentCorrectY;
+
 var playerColours = [
     "#FF0000",
     "#00FF00",
@@ -57,7 +60,7 @@ function dropMarker(ev) {
             playSecondRound();
         }
         else {
-            calculateScore(5, 5);
+            calculateScore(currentCorrectX, currentCorrectY);
             showRoundScores();
         }
     }
@@ -65,6 +68,8 @@ function dropMarker(ev) {
 
 function showRoundScores() {
     document.getElementById("horizontalFlex").style.display = "none";
+
+    turnNum++;
 
     var list = document.getElementById("playerScoresList");
 
@@ -176,7 +181,7 @@ function createColourGrid(width, height) {
     // create rows
     for (var i = 0; i < height; ++i) {
         // create coord
-        grid.appendChild(createTextItem(String.fromCharCode(i+65), 1, i+2));
+        grid.appendChild(createTextItem(String.fromCharCode(i+64+1), 1, i+2));
         for (var j = 0; j < width; ++j) {
             // create colour square
             let verticalGradientIndex = i * (1/height) * 0.8;
@@ -204,8 +209,8 @@ function startGame(players) {
         }
     }
     document.getElementById("gameStartDialogue").style.display = "none";
-    document.getElementById("horizontalFlex").style.display = "flex";
-    playFirstRound();
+    document.getElementById("randomSquare").style.display = "flex";
+    showCorrectSquare();
 }
 
 function showTurnPrompt(playerNum, clueNum) {
@@ -228,7 +233,17 @@ function showTurnPrompt(playerNum, clueNum) {
     }, 20);
 }
 
+function showCorrectSquare() {
+    document.getElementById("turnFinishedDialogue").style.display = "none";
+    document.getElementById("randomSquare").style.display = "flex";
+    document.getElementById("showHiddenPrompt").innerHTML = "Player " + (turnNum+1);
+    randomSquare();
+}
+
 function playFirstRound() {
+    document.getElementById("randomSquare").style.display = "none";
+    document.getElementById("horizontalFlex").style.display = "flex";
+
     var grid = document.getElementsByClassName("grid");
     if (grid.length != 0) {
         grid[0].remove();
@@ -254,8 +269,6 @@ function playSecondRound() {
             createMarkerItem(i*2 + 1, new Color(playerColours[i]), document.getElementById("markersSpace"));
         }
     }
-
-    // show scores
 }
 
 function addPoints(colourSpace, points) {
@@ -291,12 +304,17 @@ function calculateScore(correctSquareX, correctSquareY) {
     }
 }
 
+function randomSquare() {
+    currentCorrectX = Math.floor(Math.random() * width) + 1;
+    currentCorrectY = Math.floor(Math.random() * height) + 1;
+    document.getElementById("correctSquare").innerHTML = String.fromCharCode(currentCorrectY+64-1) + (currentCorrectX-1);
+}
+
 function showFinalScores() {
     showRoundScores();
 }
 
 function nextTurn() {
-    turnNum++;
     if (turnNum < numPlayers)
     {
         document.getElementById("turnFinishedDialogue").style.display = "none";
@@ -310,4 +328,5 @@ function nextTurn() {
 }
 
 document.getElementById("playGameButton").addEventListener("click", function() { startGame(2); } );
-document.getElementById("nextRoundButton").addEventListener("click", nextTurn);
+document.getElementById("nextRoundButton").addEventListener("click", showCorrectSquare);
+document.getElementById("startRoundButton").addEventListener("click", nextTurn);
