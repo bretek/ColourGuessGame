@@ -3,7 +3,10 @@ import Color from "https://colorjs.io/dist/color.js";
 var grid;
 var turnNum = 0;
 var firstRound = true;
-var numPlayers = 3;
+var numPlayers = 0;
+
+var width = 30;
+var height = 16;
 
 var playerColours = [
     "#FF0000",
@@ -16,6 +19,20 @@ var playerColours = [
     "#FFFFFF",
     "#AAAAAA"
 ];
+
+var playerScores = [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+];
+
+var MAX_PLAYERS = playerColours.length;
 
 function dragMarker(ev) {
     ev.dataTransfer.setData("marker", ev.target.id);
@@ -31,8 +48,6 @@ function dropMarker(ev) {
     var marker = document.getElementById(ev.dataTransfer.getData("marker"));
     var targetY = ev.target.style["grid-row"] - 1;
     var targetX = ev.target.style["grid-column"] - 1;
-    console.log (targetY);
-    console.log (targetX);
     if (!isSpaceOccupied(targetX, targetY) && targetX > 0 && targetY > 0) {
         ev.target.appendChild(marker);
         marker.draggable = false;
@@ -42,6 +57,8 @@ function dropMarker(ev) {
             playSecondRound();
         }
         else {
+            calculateScore(5, 5);
+            console.log(playerScores);
             nextTurn();
         }
     }
@@ -159,6 +176,18 @@ function createColourGrid(width, height) {
     }
 }
 
+function startGame(players) {
+    turnNum = 0;
+    firstRound = true;
+    numPlayers = players;
+    for (var i = 0; i < MAX_PLAYERS; ++i) {
+        if (i < playerScores.length) {
+            playerScores[i] = 0;
+        }
+    }
+    playFirstRound();
+}
+
 function playFirstRound() {
     var grid = document.getElementsByClassName("grid");
     if (grid.length != 0) {
@@ -167,7 +196,7 @@ function playFirstRound() {
 
     createColourGrid(30,16);
 
-    alert("Player " + (turnNum + 1) + ", give your first clue");
+    alert("Player " + (turnNum + 1) + ", give your first clue"); // show info
 
     for (var i = 0; i < numPlayers; ++i) {
         if (i != turnNum) {
@@ -177,7 +206,7 @@ function playFirstRound() {
 }
 
 function playSecondRound() {
-    alert("Player " + (turnNum + 1) + ", give your second clue");
+    alert("Player " + (turnNum + 1) + ", give your second clue"); // show info
 
     firstRound = false;
     for (var i = 0; i < numPlayers; ++i) {
@@ -185,15 +214,48 @@ function playSecondRound() {
             createMarkerItem(i*2 + 1, new Color(playerColours[i]), document.getElementById("markersSpace"));
         }
     }
+
+    // show scores
+}
+
+function addPoints(colourSpace, points) {
+    let piece = colourSpace.childNodes;
+    if (piece.length != 0) {
+        let playerIndex = Math.floor(piece[0].id / 2);
+        playerScores[playerIndex] += points;
+    }
+}
+
+function getSquare(x, y) {
+    var squares = document.getElementsByClassName("grid-colour-item");
+    for (var i = 0; i < squares.length; ++i) {
+        if (squares[i].style["grid-row"] == y && squares[i].style["grid-column"] == x) {
+            return squares[i];
+        }
+    }
+
+    return null;
+}
+
+function calculateScore(correctSquareX, correctSquareY) {
+    for (let x = -2; x <= 2; ++x) { // for point scoring coords
+        for (let y = -2; y <=2; ++y) {
+            if (correctSquareX+x > 0 && correctSquareY+y > 0 && correctSquareX+x <= width && correctSquareY+y <= height) {
+                var square = getSquare(correctSquareX+x, correctSquareY+y);
+                if (square != null && square.childNodes.length != 0) {
+                    var points = 3 - (x > y ? Math.abs(x) : Math.abs(y));
+                    addPoints(square, points);
+                }
+            }
+        }
+    }
 }
 
 function showFinalScores() {
-    alert("won");
+    // show final scores
 }
 
 function nextTurn() {
-    //add scores
-
     turnNum++;
     if (turnNum < numPlayers)
     {
@@ -205,4 +267,4 @@ function nextTurn() {
     }
 }
 
-playFirstRound();
+startGame(4);
