@@ -29,6 +29,22 @@ body {
     padding: 10px;
 }
 
+.floatingBox {
+    background-color: black;
+    border: 5px solid white;
+    border-radius: 20px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    width: 30vw;
+    height: 40vh;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .grid {
     display: inline-grid;
     width: 100%;
@@ -68,4 +84,19 @@ p {
     color: white;
     text-align: center;
     flex: 0 0 auto;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+button {
+    width: 40%;
+    background-color: #535353;
+    border: 3px solid white;
+    border-radius: 10px;
+    color: white;
+    align-self: center;
 }

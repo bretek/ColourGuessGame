@@ -58,10 +58,28 @@ function dropMarker(ev) {
         }
         else {
             calculateScore(5, 5);
-            console.log(playerScores);
-            nextTurn();
+            showRoundScores();
         }
     }
+}
+
+function showRoundScores() {
+    document.getElementById("horizontalFlex").style.display = "none";
+
+    var list = document.getElementById("playerScoresList");
+
+    while (list.firstChild) {
+        list.removeChild(list.lastChild);
+    }
+
+    for (let i = 0; i < numPlayers; ++i) {
+        var listItem = document.createElement("li");
+        var score = document.createElement("p");
+        score.innerHTML = "Player " + (i + 1) + ": " + playerScores[i];
+        listItem.appendChild(score);
+        list.appendChild(listItem);
+    }
+    document.getElementById("turnFinishedDialogue").style.display = "flex";
 }
 
 function createTextItem(text, x, y) {
@@ -185,7 +203,29 @@ function startGame(players) {
             playerScores[i] = 0;
         }
     }
+    document.getElementById("gameStartDialogue").style.display = "none";
+    document.getElementById("horizontalFlex").style.display = "flex";
     playFirstRound();
+}
+
+function showTurnPrompt(playerNum, clueNum) {
+    document.getElementById("turnPromptText").innerHTML = "Player " + (playerNum) + ", give your " + clueNum + " clue";
+    var prompt = document.getElementById("turnPrompt");
+    prompt.style.display = "flex";
+
+    var fadeOut = setInterval(function() {
+        if (!prompt.style.opacity) {
+            prompt.style.opacity = 1;
+        }
+        if (prompt.style.opacity > 0) {
+            prompt.style.opacity -= Math.pow((1-prompt.style.opacity + 0.01), 2);
+        }
+        else {
+            prompt.style.opacity = null;
+            prompt.style.display = "none";
+            clearInterval(fadeOut);
+        }
+    }, 20);
 }
 
 function playFirstRound() {
@@ -196,7 +236,7 @@ function playFirstRound() {
 
     createColourGrid(30,16);
 
-    alert("Player " + (turnNum + 1) + ", give your first clue"); // show info
+    showTurnPrompt(turnNum+1, "first");
 
     for (var i = 0; i < numPlayers; ++i) {
         if (i != turnNum) {
@@ -206,7 +246,7 @@ function playFirstRound() {
 }
 
 function playSecondRound() {
-    alert("Player " + (turnNum + 1) + ", give your second clue"); // show info
+    showTurnPrompt(turnNum+1, "second");
 
     firstRound = false;
     for (var i = 0; i < numPlayers; ++i) {
@@ -252,13 +292,15 @@ function calculateScore(correctSquareX, correctSquareY) {
 }
 
 function showFinalScores() {
-    // show final scores
+    showRoundScores();
 }
 
 function nextTurn() {
     turnNum++;
     if (turnNum < numPlayers)
     {
+        document.getElementById("turnFinishedDialogue").style.display = "none";
+        document.getElementById("horizontalFlex").style.display = "flex";
         firstRound = true;
         playFirstRound();
     }
@@ -267,4 +309,5 @@ function nextTurn() {
     }
 }
 
-startGame(4);
+document.getElementById("playGameButton").addEventListener("click", function() { startGame(2); } );
+document.getElementById("nextRoundButton").addEventListener("click", nextTurn);

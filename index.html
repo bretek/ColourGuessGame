@@ -11,9 +11,27 @@
 
     <body>
         <h1>Colour Guesser Game</h1>
-        <div id="horizontalFlex">
+        <div id="horizontalFlex" style="display: none">
             <div id="gridSpace"></div>
             <div id="markersSpace"></div>
+        </div>
+
+        <div class="floatingBox" id="turnFinishedDialogue" style="display: none">
+            <h1>Scores:</h1>
+            <ul id="playerScoresList">
+            </ul>
+            <button id="nextRoundButton">NEXT ROUND</button>
+        </div>
+
+        <div class="floatingBox" id="gameStartDialogue">
+            <h1>Welcome to the game!</h1>
+            <p>Instructions: sthearshtasrihoteiah</p>
+            <!--set number of players-->
+            <button id="playGameButton">PLAY GAME</button>
+        </div>
+
+        <div class="floatingBox" id="turnPrompt" style="display: none">
+            <p id="turnPromptText"></p>
         </div>
     </body>
 
