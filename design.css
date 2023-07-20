@@ -16,6 +16,12 @@ body {
     margin: 20px;
 }
 
+#correctSquare {
+    font-size: 5em;
+    padding: 0;
+    background-color: white;
+}
+
 #markersSpace {
     display: flex;
     flex-direction: column;
@@ -48,7 +54,7 @@ body {
 .grid {
     display: inline-grid;
     width: 100%;
-    gap: 10px;
+    gap: 5px;
     margin: 10px;
 }
 
@@ -64,7 +70,7 @@ body {
     justify-content: center;
     align-items: center;
     display: flex;
-    border-radius: 10px;
+    border-radius: 5px;
     aspect-ratio: 1;
 }
 

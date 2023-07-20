@@ -5,8 +5,8 @@ var turnNum = 0;
 var firstRound = true;
 var numPlayers = 0;
 
-var width = 30;
-var height = 16;
+var width = 20;
+var height = 10;
 
 var currentCorrectX;
 var currentCorrectY;
@@ -234,10 +234,16 @@ function showTurnPrompt(playerNum, clueNum) {
 }
 
 function showCorrectSquare() {
-    document.getElementById("turnFinishedDialogue").style.display = "none";
-    document.getElementById("randomSquare").style.display = "flex";
-    document.getElementById("showHiddenPrompt").innerHTML = "Player " + (turnNum+1);
-    randomSquare();
+    if (turnNum < numPlayers)
+    {
+        document.getElementById("turnFinishedDialogue").style.display = "none";
+        document.getElementById("randomSquare").style.display = "flex";
+        document.getElementById("showHiddenPrompt").innerHTML = "Player " + (turnNum+1);
+        randomSquare();
+    }
+    else {
+        showFinalScores();
+    }
 }
 
 function playFirstRound() {
@@ -249,7 +255,7 @@ function playFirstRound() {
         grid[0].remove();
     }
 
-    createColourGrid(30,16);
+    createColourGrid(width, height);
 
     showTurnPrompt(turnNum+1, "first");
 
@@ -305,8 +311,8 @@ function calculateScore(correctSquareX, correctSquareY) {
 }
 
 function randomSquare() {
-    currentCorrectX = Math.floor(Math.random() * width) + 1;
-    currentCorrectY = Math.floor(Math.random() * height) + 1;
+    currentCorrectX = Math.floor(Math.random() * width) + 2;
+    currentCorrectY = Math.floor(Math.random() * height) + 2;
     document.getElementById("correctSquare").innerHTML = String.fromCharCode(currentCorrectY+64-1) + (currentCorrectX-1);
 }
 
@@ -315,18 +321,23 @@ function showFinalScores() {
 }
 
 function nextTurn() {
-    if (turnNum < numPlayers)
-    {
-        document.getElementById("turnFinishedDialogue").style.display = "none";
-        document.getElementById("horizontalFlex").style.display = "flex";
-        firstRound = true;
-        playFirstRound();
+    document.getElementById("turnFinishedDialogue").style.display = "none";
+    document.getElementById("horizontalFlex").style.display = "flex";
+    firstRound = true;
+    playFirstRound();
+}
+
+function toggleText() {
+    var text = document.getElementById("correctSquare");
+    if (text.style.backgroundColor == "white") {
+        text.style.backgroundColor = "black";
     }
     else {
-        showFinalScores();
+        text.style.backgroundColor = "white";
     }
 }
 
 document.getElementById("playGameButton").addEventListener("click", function() { startGame(2); } );
 document.getElementById("nextRoundButton").addEventListener("click", showCorrectSquare);
 document.getElementById("startRoundButton").addEventListener("click", nextTurn);
+document.getElementById("correctSquare").addEventListener("click", toggleText);
