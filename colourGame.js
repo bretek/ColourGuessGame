@@ -332,11 +332,11 @@ function nextTurn() {
 
 function toggleText() {
     var text = document.getElementById("correctSquare");
-    if (text.style.backgroundColor == "white") {
-        text.style.backgroundColor = "black";
+    if (text.style.backgroundColor == "black") {
+        text.style.backgroundColor = "white";
     }
     else {
-        text.style.backgroundColor = "white";
+        text.style.backgroundColor = "black";
     }
 }
 
