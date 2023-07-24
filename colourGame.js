@@ -1,9 +1,9 @@
 import Color from "https://colorjs.io/dist/color.js";
 
 var grid;
-var turnNum = 0;
+var turnNum;
 var firstRound = true;
-var numPlayers = 5;
+var numPlayers;
 
 var width = 30;
 var height = 16;
@@ -214,10 +214,10 @@ function showFinalScores() {
     showRoundScores();
 }
 
-function startGame(players) {
+function startGame() {
+    numPlayers = document.getElementById("numPlayersSelect").value;
     turnNum = 0;
     firstRound = true;
-    numPlayers = players;
     for (var i = 0; i < MAX_PLAYERS; ++i) {
         if (i < playerScores.length) {
             playerScores[i] = 0;
@@ -330,7 +330,7 @@ function toggleText() {
     }
 }
 
-document.getElementById("playGameButton").addEventListener("click", function() { startGame(numPlayers); } );
+document.getElementById("playGameButton").addEventListener("click", function() { startGame(); } );
 document.getElementById("nextRoundButton").addEventListener("click", showCorrectSquare);
 document.getElementById("startRoundButton").addEventListener("click", nextTurn);
 document.getElementById("correctSquare").addEventListener("click", toggleText);

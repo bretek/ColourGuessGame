@@ -98,11 +98,13 @@ ul {
     padding: 0;
 }
 
-button {
+button, select {
     width: 40%;
     background-color: #535353;
     border: 3px solid white;
     border-radius: 10px;
     color: white;
     align-self: center;
+    margin: 10px;
+    text-align: center;
 }
